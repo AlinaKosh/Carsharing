@@ -1,0 +1,11 @@
+body{
+    background-image: url('/static/images/backgroundEnter.jpg');
+    width: 100px;
+    background-size: cover;
+}
+
+a {
+    position: absolute;
+    right: 100px;
+    top: 70px;
+}

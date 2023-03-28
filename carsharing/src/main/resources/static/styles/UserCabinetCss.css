@@ -1,0 +1,107 @@
+body{
+    font-family:sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.headerUserPage{
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+    background-color: #009fdf;
+    height: 10vh;
+    padding-bottom: 20px;
+}
+
+.ItemList{
+    text-decoration: none;
+    color: #7E838E;
+    font-size: 20px;
+    padding-bottom: 20px;
+}
+
+.Prize{
+    padding-right: 10px;
+}
+
+.pic{
+    display: flex;
+    justify-content:space-around;
+    width: 80%;
+    padding-left: 90px;
+}
+
+.lion1{
+    padding-top: 30px;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.photo{
+    padding-left: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.lion2{
+    display: flex;
+    flex-direction: column;
+    padding-left: 60px;
+}
+
+.page{
+    display: flex;
+    flex-direction: row;
+}
+
+.text{
+    padding-left: 50px;
+}
+
+.nftg{
+    padding-left: 100px;
+}
+
+.currency{
+    display: flex;
+    flex-direction: column;
+}
+
+.money{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 10px;
+}
+
+.Ruble{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 30px;
+    height: 30px;
+    padding-left: 10px;
+}
+
+.CryptoRuble{
+    width: 30px;
+    height: 30px;
+    padding-left: 10px;
+}
+
+.avatar{
+    border-radius: 50%;
+    height: 90%;
+    object-fit: cover;
+}
+
+.avatar:hover{
+    cursor: pointer;
+}
+.Page{
+    display: flex;
+    justify-content: space-between;
+    height: 90vh;
+    width: 100%;
+}

@@ -1,0 +1,60 @@
+body{
+    background-image: url('/static/images/backgroundEnter.jpg');
+    font-family:sans-serif;
+    background-size: auto;
+    background-attachment:fixed;
+    margin-left: 100px;
+}
+
+.t1{
+    background-color: #aac7ff;
+    width:500px;
+    padding: 0px;
+    margin: 30px 450px ;
+    text-align: center;
+    border-radius: 20px;
+}
+
+.t2{
+    background-color: #a9ccff;
+    margin: 10px;
+    border: 3px black;
+    box-shadow: 0 0 10px;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+b{
+    color: red;
+}
+
+hr{
+    margin-left: 165px;
+}
+
+.textbox{
+    border: 1px solid #848484;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    outline:0;
+    height:20px;
+    width: 150px;
+}
+
+
+.blubtn1{
+    background: #eee;
+    color: #088;
+    text-decoration: none;
+    display: block;
+    width: 150px;
+    text-align: center;
+    margin: 20px auto;
+    padding: 10px 10px;
+    transition: all 0.3s;
+}
+
+.blubtn1:hover{
+    box-shadow: 0px -5px 0 #088 inset;
+}
