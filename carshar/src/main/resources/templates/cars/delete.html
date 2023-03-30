@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head lang="en">
+    <title>Remove </title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+</head>
+<body>
+<nav class="menu">
+    <ul>
+        <li><a href="/">Главная</a></li>
+        <li><a href="/profile">Мой профиль</a></li>
+        <li sec:authorize="anonymous"><a href="/login">Войти</a></li>
+        <li sec:authorize="authenticated"><a href="/logout">Выйти</a></li>
+        <li sec:authorize="anonymous"><a sec:authorize="anonymous" href="/registration">Регистрация</a></li>
+    </ul>
+</nav>
+<div class="container">
+    <h2>Удаление автомобиля из базы</h2>
+    <div>
+        <form class="form-horizontal" th:object="${object}" th:action="@{/cars/delete}" th:method="delete">
+            <input type="hidden" class="form-control" th:field="*{id}"/>
+            <table>
+                <tr>
+                    <td>Номер:</td>
+                    <td><p th:utext="*{number}"></p></td>
+                </tr>
+                <tr>
+                    <td>Класс автомобиля:</td>
+                    <td><p th:utext="*{type.name}"></p></td>
+                </tr>
+                <tr>
+                    <td>Производитель:</td>
+                    <td><p th:utext="*{firm.name}"></p></td>
+                </tr>
+                <tr>
+                    <td>Тип коробки передач:</td>
+                    <td><p th:utext="*{transmission.name}"></p></td>
+                </tr>
+                <tr>
+                    <td>Сумма страхования:</td>
+                    <td><p th:utext="*{insurance}"></p></td>
+                </tr>
+                <tr>
+                    <td>Арендная плата за день:</td>
+                    <td><p th:utext="*{costPerDay}"></p></td>
+                </tr>
+                <tr>
+                    <td><button type="submit">Подтвердить</button></td>
+                    <td th:text="${error}">Error</td>
+                </tr>
+            </table>
+
+        </form>
+    </div>
+</div>
+</body>
+</html>

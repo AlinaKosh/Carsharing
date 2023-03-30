@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head lang="en">
+    <title>New transmission</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+    <script type="text/javascript" src="../../../js/checkNameField.js">
+    </script>
+</head>
+<body>
+<nav class="menu">
+    <ul>
+        <li><a href="/">Главная</a></li>
+        <li><a href="/profile">Мой профиль</a></li>
+        <li sec:authorize="anonymous"><a href="/login">Войти</a></li>
+        <li sec:authorize="authenticated"><a href="/logout">Выйти</a></li>
+        <li sec:authorize="anonymous"><a sec:authorize="anonymous" href="/registration">Регистрация</a></li>
+    </ul>
+</nav>
+    <div>
+        <H2>Добавление типа коробки передач</H2>
+        <form class="form-horizontal" th:object="${object}" th:action="@{/admin/transmissions/add}" method="post">
+            <input type="hidden" class="form-control" th:field="*{id}"/>
+            <table>
+                <tr>
+                    <td th:text="${success}">Success</td>
+                </tr>
+                <tr>
+                    <td>Новый тип коробки передач:</td>
+                    <td><input type="text" th:field="*{name}" onblur="trim(this)"/></td>
+                    <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+                </tr>
+                <tr>
+                    <td><button type="submit">Подтвердить</button></td>
+                    <td> <a href="/admin/transmissions">К списку</a></td>
+                </tr>
+            </table>
+
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8" />
+    <title>Firms</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+</head>
+<body>
+<nav class="menu">
+    <ul>
+        <li><a href="/">Главная</a></li>
+        <li><a href="/profile">Мой профиль</a></li>
+        <li sec:authorize="anonymous"><a href="/login">Войти</a></li>
+        <li sec:authorize="authenticated"><a href="/logout">Выйти</a></li>
+        <li sec:authorize="anonymous"><a sec:authorize="anonymous" href="/registration">Регистрация</a></li>
+    </ul>
+</nav>
+<h1>Производители автомобилей </h1>
+<a href="/admin/firms/new">Добавить </a>
+<br/><br/>
+<div>
+    <table border="1">
+        <tr>
+            <th>Идентификатор</th>
+            <th>Название</th>
+        </tr>
+        <tr th:each ="object : ${list}">
+            <td th:utext="${object.id}">...</td>
+            <td th:utext="${object.name}">...</td>
+            <td><a th:href="@{/admin/firms/edit/{id}(id=${object.id})}">Изменить</a></td>
+            <td><a th:href="@{/admin/firms/delete/{id}(id=${object.id})}">Удалить</a></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

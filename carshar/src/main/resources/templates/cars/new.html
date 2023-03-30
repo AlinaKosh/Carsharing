@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head lang="en">
+    <title>New car</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+    <script type="text/javascript" src="../../../js/newCar.js">
+    </script>
+</head>
+<body>
+<nav class="menu">
+    <ul>
+        <li><a href="/">Главная</a></li>
+        <li><a href="/profile">Мой профиль</a></li>
+        <li sec:authorize="anonymous"><a href="/login">Войти</a></li>
+        <li sec:authorize="authenticated"><a href="/logout">Выйти</a></li>
+        <li sec:authorize="anonymous"><a sec:authorize="anonymous" href="/registration">Регистрация</a></li>
+    </ul>
+</nav>
+<div class="container">
+    <div>
+        <form class="form-horizontal" th:object="${object}" th:action="@{/cars/add}" onsubmit="return validateForm()" method="post">
+            <input type="hidden" class="form-control" th:field="*{id}"/>
+            <h2>Добавляемый автомобиль:</h2>
+            <table>
+                <tr>
+                    <td>Номер:</td>
+                    <td>
+                        <input type="text" id="number" minlength="9" maxlength="10" th:field="*{number}" oninput="toUpperCase(this)" onblur="validateNumber()" />
+                        <td th:if="${#fields.hasErrors('number')}" th:errors="*{number}">Error</td>
+                        <span id="number_help"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Выберите класс:</td>
+                    <td>
+                        <select id="types" autocomplete="off" th:field="*{type}" >
+                            <option th:each="type : ${types}"
+                                    th:value="${type.id}"
+                                    th:text="${type.name}"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Выберите производителя:</td>
+                    <td>
+
+                        <select id="firms" autocomplete="off" th:field="*{firm}" >
+                            <option th:each="firm : ${firms}"
+                                    th:value="${firm.id}"
+                                    th:text="${firm.name}"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Выберите тип коробки передач:</td>
+                    <td>
+                        <select id="transmissions" autocomplete="off" th:field="*{transmission}" >
+                            <option th:each="transmission : ${transmissions}"
+                                    th:value="${transmission.id}"
+                                    th:text="${transmission.name}"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Страховая стоимость:</td>
+                    <td>
+                        <input type="number" id="insurance" min="1000" max="10000000" step="100" th:field="*{insurance}" />
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>Арендная плата за день</td>
+                    <td>
+                        <input type="number" id="cost" min="50" max="10000" step="5" th:field="*{costPerDay}"/>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td><button type="submit">Подтвердить</button></td>
+                    <td> <a href="/cars">К списку</a></td>
+                </tr>
+            </table>
+
+        </form>
+    </div>
+</div>
+</body>
+</html>

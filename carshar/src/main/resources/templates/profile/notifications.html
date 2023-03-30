@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head lang="en">
+    <title>Notifications</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+</head>
+    <body>
+    <nav class="menu">
+        <ul>
+            <li><a href="/profile">Мой профиль</a></li>
+            <li sec:authorize="authenticated"><a href="profile/notifications">Уведомления</a></li>
+            <li sec:authorize="anonymous"><a href="/login">Войти</a></li>
+            <li sec:authorize="authenticated"><a href="/logout">Выйти</a></li>
+            <li sec:authorize="anonymous"><a sec:authorize="anonymous" href="/registration">Регистрация</a></li>
+        </ul>
+    </nav>
+    <div class="logo">
+        <p><a href="/"><img src="../../images/logo.png" title="Car Sharing"></a></p>
+    </div>
+        <div class="container">
+            <h2>Ваша учетная запись</h2>
+            <div th:object="${user}">
+                <table >
+                       <tr>
+                           <td>Имя:</td>
+                           <td><p th:text="*{name}"></p></td>
+                       </tr>
+
+                       <tr>
+                           <td>Почта:</td>
+                           <td><p th:text="*{email}"></p></td>
+                       </tr>
+                       <tr>
+                           <td>Роль:</td>
+                           <td><p th:text="*{roles}"></p></td>
+                       </tr>
+                </table>
+                <form sec:authorize="hasAuthority('USER')" action="/profile/orders">
+                    <input type="submit" value="Заказы" />
+                </form>
+                <!--<a th:href="@{/profile/edit/{id}(id=*{id})}">Изменить</a>-->
+            </div>
+        </div>
+    </body>
+</html>

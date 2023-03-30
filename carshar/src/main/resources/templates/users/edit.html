@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head lang="en">
+    <title>Edit </title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+</head>
+<body>
+    <nav class="menu">
+        <ul>
+            <li><a href="/profile">Мой профиль</a></li>
+            <li sec:authorize="anonymous"><a href="/login">Войти</a></li>
+            <li sec:authorize="authenticated"><a href="/logout">Выйти</a></li>
+            <li sec:authorize="anonymous"><a sec:authorize="anonymous" href="/registration">Регистрация</a></li>
+        </ul>
+    </nav>
+    <div class="logo">
+        <p><a href="/"><img src="images/logo.png" title="Car Sharing"></a></p>
+    </div>
+    <div class="container">
+        <h2>Edit </h2>
+        <div>
+            <form class="form-horizontal" th:object="${user}" th:action="@{/profile/edit}" method="post">
+                <input type="hidden" class="form-control" th:field="*{id}"/>
+                <input type="hidden" class="form-control" th:field="*{active}"/>
+                <table>
+                    <tr>
+                        <td>Имя:</td>
+                        <td><input type="text" th:field="*{name}" /></td>
+                        <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+                    </tr>
+                    <tr>
+                        <td>Телефон:</td>
+                        <td><input type="text" th:field="*{phone}" /></td>
+                        <td th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">phone Error</td>
+                    </tr>
+                    <tr>
+                        <td>Почта:</td>
+                        <td><input type="text" th:field="*{email}" /></td>
+                        <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email Error</td>
+                    </tr>
+                    <tr>
+                        <td>Пароль:</td>
+                        <td><input type="text" th:field="*{password}" /></td>
+                        <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password Error</td>
+                    </tr>
+
+                    <tr>
+                        <td><button type="submit">Submit</button></td>
+                    </tr>
+                </table>
+
+            </form>
+        </div>
+    </div>
+</body>
+</html>

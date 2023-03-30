@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head lang="en">
+    <title>New tax</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+
+    <script language="JavaScript">
+        function selectAll(source) {
+            checkboxes = document.getElementsByName('cars');
+            for(var i=0, n=checkboxes.length;i<n;i++) {
+                checkboxes[i].checked = source.checked;
+            }
+        }
+    </script>
+</head>
+<body>
+<nav class="menu">
+    <ul>
+        <li><a href="/">Главная</a></li>
+        <li><a href="/profile">Мой профиль</a></li>
+        <li sec:authorize="anonymous"><a href="/login">Войти</a></li>
+        <li sec:authorize="authenticated"><a href="/logout">Выйти</a></li>
+        <li sec:authorize="anonymous"><a sec:authorize="anonymous" href="/registration">Регистрация</a></li>
+    </ul>
+</nav>
+<div class="container">
+    <h2>Страхование автомобилей</h2>
+    <h3>Выбирете автомобили, которые необходимо застраховать:</h3>
+    <div>
+        <form class="form-horizontal"  th:action="@{/admin/tax/add}" method="post">
+            <table>
+                <tr>
+                    <td><input type="checkbox" onclick="selectAll(this)">Выбрать все</input></td>
+                </tr>
+                <tr th:each="car : ${carList}">
+                    <td><input type="checkbox" name="cars" th:value="${car.id}" th:text="${car.toString()}"/></td>
+                </tr>
+                <tr>
+                    <td><button type="submit">Подтвердить</button></td>
+                </tr>
+            </table>
+
+        </form>
+    </div>
+</div>
+</body>
+</html>

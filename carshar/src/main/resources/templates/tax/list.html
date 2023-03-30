@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8" />
+    <title>Tax</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+</head>
+<body>
+<nav class="menu">
+    <ul>
+        <li><a href="/">Главная</a></li>
+        <li><a href="/profile">Мой профиль</a></li>
+        <li sec:authorize="anonymous"><a href="/login">Войти</a></li>
+        <li sec:authorize="authenticated"><a href="/logout">Выйти</a></li>
+        <li sec:authorize="anonymous"><a sec:authorize="anonymous" href="/registration">Регистрация</a></li>
+    </ul>
+</nav>
+<h1>Счета оплаты страхования: </h1>
+<a href="/admin/tax/new">Добавить </a>
+<br/><br/>
+<div>
+    <table border="1">
+        <tr>
+            <th>Идентификатор счета</th>
+            <th>Идентификатор автомобиля</th>
+            <th>Оплата произведена</th>
+            <th>Сумма</th>
+        </tr>
+        <tr th:each ="object : ${list}">
+            <td th:utext="${object.id}">...</td>
+            <td th:utext="${object.car.id}">...</td>
+            <td th:utext="${object.date}">...</td>
+            <td th:utext="${object.sum}">...</td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8" />
+    <title>Orders</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+</head>
+<body>
+    <nav class="menu">
+        <ul>
+            <li><a href="/profile">Мой профиль</a></li>
+            <li sec:authorize="anonymous"><a href="/login">Войти</a></li>
+            <li sec:authorize="authenticated"><a href="/logout">Выйти</a></li>
+            <li sec:authorize="anonymous"><a sec:authorize="anonymous" href="/registration">Регистрация</a></li>
+        </ul>
+    </nav>
+    <div class="logo">
+        <p><a href="/"><img src="../../images/logo.png" title="Car Sharing"></a></p>
+    </div>
+<h1>Заказы</h1>
+<br/><br/>
+<div>
+    <table border="1">
+        <tr>
+            <th sec:authorize="hasAuthority('ADMIN')">Идентификатор</th>
+            <th sec:authorize="hasAuthority('ADMIN')">ID пользователя</th>
+            <th>Автомобиль</th>
+            <th>Дата</th>
+            <th>Количество дней аренды</th>
+            <th>Вернул</th>
+            <th>Сумма заказа</th>
+        </tr>
+        <tr th:if="${#lists.size(list)!=0}" th:each ="i : ${#numbers.sequence(0,#lists.size(list)-1)}">
+            <td sec:authorize="hasAuthority('ADMIN')" th:utext="${list[i].id}">...</td>
+            <td sec:authorize="hasAuthority('ADMIN')" th:utext="${list[i].user.id}">...</td>
+            <td th:utext="${list[i].car.toString()}">...</td>
+            <td th:utext="${list[i].date}">...</td>
+            <td th:utext="${list[i].days}">...</td>
+            <td th:utext="${list[i].returned}">...</td>
+            <td th:utext="${sum[i]}">...</td>
+            <td sec:authorize="hasAuthority('USER')" th:if="${list[i].returned}==null"><a th:href="@{/orders/{id}/return_car(id=${list[i].id})}">Вернуть</a></td>
+            <td sec:authorize="hasAuthority('USER')" th:if="${list[i].returned}==null"><a th:href="@{/orders/edit/{id}(id=${list[i].id})}">Изменить</a></td>
+            <td sec:authorize="hasAuthority('USER')" th:if="${list[i].returned}==null"><a th:href="@{/orders/delete/{id}(id=${list[i].id})}">Отменить</a></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

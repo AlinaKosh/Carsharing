@@ -1,0 +1,29 @@
+
+body {
+    background-color: lightblue;
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+}
+
+.logo {
+
+     text-align: center;
+ }
+
+table{
+    width: 100%;
+    text-align: center;
+}
+
+ul{
+    width: 100%;
+}
+li{
+    display: inline-block;
+}
+
+form {
+    width: 500px;
+    margin: 0 auto;
+}

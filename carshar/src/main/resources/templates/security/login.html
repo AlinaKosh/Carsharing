@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <title>Spring Security Example </title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+    </head>
+    <body>
+    <nav class="menu">
+        <ul>
+            <li><a href="/profile">Мой профиль</a></li>
+            <li sec:authorize="anonymous"><a href="/login">Войти</a></li>
+            <li sec:authorize="authenticated"><a href="/logout">Выйти</a></li>
+            <li sec:authorize="anonymous"><a sec:authorize="anonymous" href="/registration">Регистрация</a></li>
+        </ul>
+    </nav>
+    <div class="logo">
+        <p><a href="/"><img src="images/logo.png" title="Car Sharing"></a></p>
+    </div>
+        <div th:if="${param.logout}">
+            Вы вышли из профиля.
+        </div>
+        <form th:action="@{/login}" method="post">
+            <input type="text" id="email" name="email"  th:placeholder="Email"
+				class="form-control" /> <br/> 
+			<input type="password"  th:placeholder="Password"
+				id="password" name="password" class="form-control" /> <br /> 
+				
+			<div align="center" th:if="${param.error}">
+				<p>Email or Password invalid, please verify</p>
+			</div>
+			<button class="btn btn-lg btn-primary btn-block" name="Submit" value="Login" type="Submit" th:text="Войти"></button>
+        </form>
+    </body>
+</html>

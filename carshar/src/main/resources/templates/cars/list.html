@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8" />
+    <title>Cars</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+</head>
+<body>
+<nav class="menu">
+    <ul>
+        <li><a href="/profile">Мой профиль</a></li>
+        <li sec:authorize="anonymous"><a href="/login">Войти</a></li>
+        <li sec:authorize="authenticated"><a href="/logout">Выйти</a></li>
+        <li sec:authorize="anonymous"><a sec:authorize="anonymous" href="/registration">Регистрация</a></li>
+    </ul>
+</nav>
+<div class="logo">
+    <p><a href="/"><img src="../../images/logo.png" title="Car Sharing"></a></p>
+</div>
+<h1>Автомобили</h1>
+<a sec:authorize="hasAuthority('ADMIN')" href="/cars/new">Добавить </a>
+<br/><br/>
+<div>
+    <table border="1">
+        <tr>
+            <th>Номер</th>
+            <th>Фирма-производитель</th>
+            <th>Класс автомобиля</th>
+            <th>Коробка передач</th>
+            <th>Страховка</th>
+            <th>Арендная плата за день</th>
+        </tr>
+        <tr th:if="${#lists.size(list)!=0}" th:each ="i : ${#numbers.sequence(0, #lists.size(list)-1)}">
+            <td th:utext="${list[i].number}">...</td>
+            <td th:utext="${list[i].getFirm().getName()}">...</td>
+            <td th:utext="${list[i].getType().getName()}">...</td>
+            <td th:utext="${list[i].getTransmission().getName()}">...</td>
+            <td th:utext="${list[i].insurance}">...</td>
+            <td th:utext="${list[i].costPerDay}">...</td>
+            <td sec:authorize="hasAuthority('USER')"><a th:href="@{/orders/new/{id}(id=${list[i].id})}">Арендовать</a></td>
+            <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/cars/edit/{id}(id=${list[i].id})}">Изменить</a></td>
+            <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/cars/delete/{id}(id=${list[i].id})}">Удалить</a></td>
+
+        </tr>
+    </table>
+</div>
+</body>
+</html>
