@@ -3,9 +3,9 @@
 <head lang="en">
     <title>New user</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
-    <script type="text/javascript" src="../../../js/registration.js">
+    <script type="text/javascript" src="/js/registration.js">
     </script>
-    <script type="text/javascript" src="../../../js/checkNameField.js">
+    <script type="text/javascript" src="/js/checkNameField.js">
     </script>
 </head>
 <body>
@@ -18,12 +18,12 @@
     </ul>
 </nav>
 <div class="logo">
-    <p><a href="/"><img src="images/logo.png" title="Car Sharing"></a></p>
+    <p><a href="/"><img src="/images/logo.png" title="Car Sharing"></a></p>
 </div>
 <div class="container">
     <h2>Новый пользователь</h2>
     <div>
-        <form class="form-horizontal" th:object="${user}" th:action="@{/newUser}" onsubmit="return validateRegForm(this.form)" method="post">
+        <form class="form-horizontal" th:object="${user}" method="post" action="/newUser"> <!-- th:action="@{/newUser}" onsubmit="return validateRegForm(this.form)" method="post"-->
             <input type="hidden" class="form-control" th:field="*{id}"/>
             <table>
                 <tr>

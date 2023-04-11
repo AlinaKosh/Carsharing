@@ -28,6 +28,9 @@ public class Order {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate returned;
 
+    @Column(name = "sum")
+    private Integer sum;
+
     public Order(){}
     public LocalDate getReturned() {
         return returned;

@@ -7,6 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FirmRepository extends JpaRepository<Firm, Integer> {
     Firm findById(int id);
-
     Firm findByNameIgnoreCase(String name);
 }

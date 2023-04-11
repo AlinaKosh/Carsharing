@@ -14,7 +14,7 @@
         </ul>
     </nav>
     <div class="logo">
-        <p><a href="/"><img src="images/logo.png" title="Car Sharing"></a></p>
+        <p><a href="/"><img src="/images/logo.png" title="Car Sharing"></a></p>
     </div>
         <div>
             <h2>Ваша учетная запись</h2>
@@ -37,7 +37,7 @@
                 <form sec:authorize="hasAuthority('USER')" action="/profile/orders">
                     <input type="submit" value="Заказы" />
                 </form>
-                <!--<a th:href="@{/profile/edit/{id}(id=*{id})}">Изменить</a>-->
+                <a th:href="@{/profile/edit/{id}(id=*{id})}">Изменить</a>
             </div>
         </div>
     </body>

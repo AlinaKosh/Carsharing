@@ -2,12 +2,12 @@ package com.project.carshar.services;
 
 import com.project.carshar.model.Type;
 import com.project.carshar.repositories.TypeRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class TypeService implements ToUpperCase{
     private final TypeRepository repository;
@@ -21,16 +21,16 @@ public class TypeService implements ToUpperCase{
     }
 
     @Transactional
-    public void delete(Type object) {
-        repository.delete(object);
+    public void delete(Type type) {
+        repository.delete(type);
     }
     @Transactional
-    public void save(Type object) throws Exception {
-        if(repository.findByNameIgnoreCase(object.getName())==null) {
-            object.setName(upper(object.getName()));
-            repository.save(object);
+    public void save(Type type) throws Exception {
+        if(repository.findByNameIgnoreCase(type.getName())==null) {
+            type.setName(upper(type.getName()));
+            repository.save(type);
             return;
         }
-        throw new Exception("Тип "+upper(object.getName())+" уже существует");
+        throw new Exception("Тип "+upper(type.getName())+" уже существует");
     }
 }

@@ -6,6 +6,7 @@ import com.project.carshar.services.CarService;
 import com.project.carshar.services.OrderService;
 import com.project.carshar.services.SumService;
 import com.project.carshar.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -21,16 +22,11 @@ import java.util.List;
 
 
 @Controller
+@RequiredArgsConstructor
 public class OrderController {
-    final OrderService orderService;
-    final CarService carService;
-    final UserService userService;
-
-    public OrderController(OrderService orderService, CarService carService, UserService userService, SumService sumService) {
-        this.orderService = orderService;
-        this.carService = carService;
-        this.userService = userService;
-    }
+    private final OrderService orderService;
+    private final CarService carService;
+    private final UserService userService;
 
     @GetMapping("admin/orders")
     @PreAuthorize("hasAuthority('ADMIN')")

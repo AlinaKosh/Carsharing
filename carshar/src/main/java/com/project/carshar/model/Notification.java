@@ -11,12 +11,16 @@ public class Notification {
     @Column(name = "id")
     private long id;
 
+    @Column(name = "user")
     private long user;
 
+    @Column(name = "text")
     private String text;
 
+    @Column(name = "read")
     private boolean read;
 
+    @Column(name = "date")
     private Timestamp date;
 
     public Notification(){}

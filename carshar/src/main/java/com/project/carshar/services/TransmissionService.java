@@ -2,12 +2,12 @@ package com.project.carshar.services;
 
 import com.project.carshar.model.Transmission;
 import com.project.carshar.repositories.TransmissionRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class TransmissionService implements ToUpperCase{
     private final TransmissionRepository repository;
@@ -21,17 +21,17 @@ public class TransmissionService implements ToUpperCase{
     }
 
     @Transactional
-    public void delete(Transmission object) {
-        repository.delete(object);
+    public void delete(Transmission transmission) {
+        repository.delete(transmission);
     }
 
     @Transactional
-    public void save(Transmission object) throws Exception {
-        if(repository.findByNameIgnoreCase(object.getName())==null) {
-            object.setName(upper(object.getName()));
-            repository.save(object);
+    public void save(Transmission transmission) throws Exception {
+        if(repository.findByNameIgnoreCase(transmission.getName())==null) {
+            transmission.setName(upper(transmission.getName()));
+            repository.save(transmission);
             return;
         }
-        throw new Exception("Тип коробки передач "+upper(object.getName())+" уже существует");
+        throw new Exception("Тип коробки передач "+upper(transmission.getName())+" уже существует");
     }
 }

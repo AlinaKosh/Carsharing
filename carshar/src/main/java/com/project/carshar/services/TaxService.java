@@ -3,11 +3,12 @@ package com.project.carshar.services;
 import com.project.carshar.model.Tax;
 import com.project.carshar.repositories.TaxRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class TaxService {
 
@@ -22,12 +23,12 @@ public class TaxService {
     }
 
     @Transactional
-    public void delete(Tax object) {
-        repository.delete(object);
+    public void delete(Tax tax) {
+        repository.delete(tax);
     }
 
     @Transactional
-    public void save(Tax object) throws Exception{
-        repository.save(object);
+    public void save(Tax tax) throws Exception{
+        repository.save(tax);
     }
 }

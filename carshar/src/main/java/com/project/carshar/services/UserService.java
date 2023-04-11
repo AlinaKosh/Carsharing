@@ -5,19 +5,24 @@ import com.project.carshar.model.User;
 import com.project.carshar.repositories.RoleRepository;
 import com.project.carshar.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class UserService {
 	private final UserRepository userRep;
 	private final RoleRepository roleRepository;
+
+	private final PasswordEncoder passwordEncoder;
 
 
 	public Iterable<User> findAll() {
@@ -28,7 +33,7 @@ public class UserService {
 		return userRep.findById(id);
 	}
 
-
+	@Transactional
 	public void delete(User user) {
 		userRep.delete(user);
 	}
@@ -36,6 +41,8 @@ public class UserService {
 	public User findByEmail(String email) {
 		return userRep.findByEmailIgnoreCase(email);
 	}
+
+
 
 	@Transactional
 	public void deleteById(long id) {
@@ -47,8 +54,12 @@ public class UserService {
 		if (emailExist(user.getEmail()))
 			throw new Exception("Данный почтовый адрес занят");
 		user.setActive(1);
+
 		Role userRole = roleRepository.findByRole("USER");
 		user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+
 		userRep.save(user);
 	}
 
