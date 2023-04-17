@@ -1,11 +1,13 @@
 package com.project.carshar.model;
 
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Data
 @Table(name = "orders")
 public class Order {
     @Id
@@ -27,9 +29,9 @@ public class Order {
     @Column(name = "returned")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate returned;
-
     @Column(name = "sum")
     private Integer sum;
+
 
     public Order(){}
     public LocalDate getReturned() {

@@ -19,6 +19,7 @@ public class Tax {
     private Car car;
     @Column(name = "date")
     private LocalDate date;
+    @Column(name = "sum")
     private int sum;
     public Tax(){}
     public long getId() {

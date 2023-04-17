@@ -1,5 +1,6 @@
 package com.project.carshar.controllers;
 
+import com.project.carshar.exception.CarAlreadyException;
 import com.project.carshar.model.Order;
 import com.project.carshar.model.User;
 import com.project.carshar.services.CarService;
@@ -31,10 +32,10 @@ public class OrderController {
     @GetMapping("admin/orders")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String list(Model model) {
-        List<Order> orders=orderService.findAll();
-        int [] sum=new int[orders.size()];
-        for (int i=0;i<orders.size();i++) {
-            sum[i]=orderService.getSum(orders.get(i).getId());
+        List<Order> orders = orderService.findAll();
+        int[] sum = new int[orders.size()];
+        for (int i = 0; i < orders.size(); i++) {
+            sum[i] = orderService.getSum(orders.get(i).getId());
         }
         model.addAttribute("list", orders);
         model.addAttribute("sum", sum);
@@ -42,14 +43,14 @@ public class OrderController {
     }
 
     @GetMapping("/profile/orders")
-    @Secured({"IS_AUTHENTICATED_FULLY","IS_AUTHENTICATED_REMEMBERED"})
+    @Secured({"IS_AUTHENTICATED_FULLY", "IS_AUTHENTICATED_REMEMBERED"})
     public String myOrders(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByEmail(auth.getName());
-        List<Order> orders=orderService.findAllByUser(user);
-        int [] sum=new int[orders.size()];
-        for (int i=0;i<orders.size();i++) {
-            sum[i]=orderService.getSum(orders.get(i).getId());
+        List<Order> orders = orderService.findAllByUser(user);
+        int[] sum = new int[orders.size()];
+        for (int i = 0; i < orders.size(); i++) {
+            sum[i] = orderService.getSum(orders.get(i).getId());
         }
         model.addAttribute("list", orders);
         model.addAttribute("sum", sum);
@@ -71,21 +72,25 @@ public class OrderController {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = userService.findByEmail(auth.getName());
-        object.setUser(user);
-        orderService.save(object);
-    } catch (Exception e) {
-        e.printStackTrace();
-        model.addAttribute("object", new Order());
-        model.addAttribute("car", carService.findById(object.getCar().getId()));
-        model.addAttribute("error","Нет свободных авто на выбранный период");
-        return "/orders/new";
-    }
+            if (!orderService.isCarAvailable(object.getCar().getId(), object.getDate(), object.getReturned())){
+                throw new CarAlreadyException("Эта машина уже была забронирована");
+            }else {
+                object.setUser(user);
+                orderService.save(object);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("object", new Order());
+            model.addAttribute("car", carService.findById(object.getCar().getId()));
+            model.addAttribute("error", "Нет свободных авто на выбранный период");
+            return "/orders/new";
+        }
         return "redirect:/cars";
     }
 
     @GetMapping("/orders/{id}/return_car")
     public String returnCar(@PathVariable("id") Long id, Model model) {
-        Order order=orderService.findById(id);
+        Order order = orderService.findById(id);
         order.setReturned(LocalDate.now());
         try {
             orderService.save(order);
@@ -110,8 +115,9 @@ public class OrderController {
         }
         try {
             orderService.save(order);
+
         } catch (Exception e) {
-            model.addAttribute("error","Нет свободных авто на выбранный период");
+            model.addAttribute("error", "Нет свободных авто на выбранный период");
             return "orders/edit";
         }
         return "redirect:/profile/orders";
@@ -123,7 +129,7 @@ public class OrderController {
         return "orders/delete";
     }
 
-    @DeleteMapping("orders/delete")
+    @PostMapping("orders/delete")
     public String delete(Order object) {
         orderService.delete(object);
         return "redirect:/profile/orders";

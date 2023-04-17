@@ -29,6 +29,8 @@ public class TaxService {
 
     @Transactional
     public void save(Tax tax) throws Exception{
+        int sum = tax.getCar().getInsurance();
+        tax.setSum(sum);
         repository.save(tax);
     }
 }
