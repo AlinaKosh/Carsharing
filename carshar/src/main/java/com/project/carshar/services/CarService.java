@@ -17,6 +17,10 @@ public class CarService {
         return repository.findAll();
     }
 
+    public Iterable<Car> findFreeCars(){
+        return repository.findFreeCars();
+    }
+
     public Car findById(long id) {
         return repository.findById(id);
     }

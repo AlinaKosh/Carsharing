@@ -32,7 +32,7 @@ public class CarController {
     @GetMapping
     @PreAuthorize("hasAnyAuthority({'ADMIN','USER'})")
     public String list(Model model) {
-        model.addAttribute("list", carService.findAll());
+        model.addAttribute("list", carService.findFreeCars());
         return "cars/list";
     }
 

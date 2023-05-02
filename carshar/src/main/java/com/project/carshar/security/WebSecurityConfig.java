@@ -71,7 +71,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.failureUrl("/login?error=true").defaultSuccessUrl("/profile").usernameParameter("email")
 				.passwordParameter("password")	.and().logout()
 				.logoutSuccessUrl("/").and().exceptionHandling().accessDeniedPage("/access-denied");
-
 	}
 
 }
