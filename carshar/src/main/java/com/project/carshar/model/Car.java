@@ -86,6 +86,6 @@ public class Car {
 
     @Override
     public String toString() {
-        return number+", "+firm.getName()+", "+type.getName()+", "+transmission.getName();
+        return number+", "+firm.name+", "+type.getName()+", "+transmission.getName();
     }
 }

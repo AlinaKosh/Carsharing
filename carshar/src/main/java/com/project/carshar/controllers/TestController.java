@@ -12,7 +12,6 @@ import java.time.LocalDate;
 
 @Controller
 @RequestMapping("/test")
-
 public class TestController {
 
     @GetMapping

@@ -39,7 +39,7 @@
             <td th:utext="${list[i].costPerDay}">...</td>
             <td sec:authorize="hasAuthority('USER')"><a th:href="@{/orders/new/{id}(id=${list[i].id})}">Арендовать</a></td>
             <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/cars/edit/{id}(id=${list[i].id})}">Изменить</a></td>
-            <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/cars/delete/{id}(id=${list[i].id})}">Удалить</a></td>
+            <!--td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/cars/delete/{id}(id=${list[i].id})}">Удалить</a></td-->
 
         </tr>
     </table>

@@ -8,10 +8,10 @@ public class Firm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    int id;
 
     @Column(name = "name")
-    private String name;
+    String name;
     public Firm(){}
 
     public int getId() {
