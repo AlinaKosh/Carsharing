@@ -5,7 +5,6 @@ import com.project.carshar.model.Order;
 import com.project.carshar.model.User;
 import com.project.carshar.services.CarService;
 import com.project.carshar.services.OrderService;
-import com.project.carshar.services.SumService;
 import com.project.carshar.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
