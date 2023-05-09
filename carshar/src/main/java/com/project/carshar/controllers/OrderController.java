@@ -32,12 +32,14 @@ public class OrderController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public String list(Model model) {
         List<Order> orders = orderService.findAll();
+        model.addAttribute("list", orders);
+        /*
         int[] sum = new int[orders.size()];
         for (int i = 0; i < orders.size(); i++) {
             sum[i] = orderService.getSum(orders.get(i).getId());
         }
-        model.addAttribute("list", orders);
         model.addAttribute("sum", sum);
+         */
         return "orders/list";
     }
 
@@ -47,12 +49,14 @@ public class OrderController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByEmail(auth.getName());
         List<Order> orders = orderService.findAllByUser(user);
+        model.addAttribute("list", orders);
+        /*
         int[] sum = new int[orders.size()];
         for (int i = 0; i < orders.size(); i++) {
             sum[i] = orderService.getSum(orders.get(i).getId());
         }
-        model.addAttribute("list", orders);
         model.addAttribute("sum", sum);
+         */
         return "/orders/list";
     }
 
@@ -71,12 +75,8 @@ public class OrderController {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = userService.findByEmail(auth.getName());
-            if (!orderService.isCarAvailable(object.getCar().getId(), object.getDate(), object.getReturned())){
-                throw new CarAlreadyException("Эта машина уже была забронирована");
-            }else {
-                object.setUser(user);
-                orderService.save(object);
-            }
+            object.setUser(user);
+            orderService.save(object);
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("object", new Order());

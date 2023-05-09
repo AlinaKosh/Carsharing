@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -31,6 +34,7 @@ public class TaxService {
     public void save(Tax tax) throws Exception{
         int sum = tax.getCar().getInsurance();
         tax.setSum(sum);
+        tax.setDate(LocalDate.now());
         repository.save(tax);
     }
 }

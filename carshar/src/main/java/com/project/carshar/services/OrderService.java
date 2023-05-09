@@ -22,6 +22,7 @@ public class OrderService {
     public List<Order> findAll() {
         return repository.findAll();
     }
+
     public List<Order> findAllByUser(User user) {
         return (List<Order>) repository.findAllByUser(user);
     }
@@ -31,7 +32,7 @@ public class OrderService {
     }
 
     @Transactional
-    public void deleteById(long id){
+    public void deleteById(long id) {
         repository.deleteById(id);
     }
 
@@ -41,53 +42,19 @@ public class OrderService {
     }
 
     @Transactional
-    public void save(Order order)throws Exception{
-
-        /*
-        List<Order> conflictBooking = repository.findByCar_IdAndDateBeforeAndReturnedAfter(order.getCar().getId(),
-                order.getDate(), order.getReturned());
-        if (!conflictBooking.isEmpty()){
-            throw new CarAlreadyException("Эта машина уже была забронирована");
-        }
-
-         */
-        /*
-        LocalDate date = order.getDate();
-        LocalDate returned = order.getReturned();
-        long id = order.getCar().getId();
-        List<Order> conflictBooking = repository.findConflictingBookings(date, returned, id);
-        if (!conflictBooking.isEmpty()){
-            throw new CarAlreadyException("Эта машина уже была забронирована");
-        }
-         */
-        /*
-        boolean isAvailable = repository.findByCar_IdAndDateBeforeAndReturnedAfter(order.getCar().getId(),
-                order.getDate(), order.getReturned()).isEmpty();
-        if (!isAvailable){
-            throw new CarAlreadyException("Эта машина уже была забронирована");
-        }else {
-
-         */
-            int sum = order.getCar().getCostPerDay() * order.getDays();
-            order.setSum(sum);
-            repository.save(order);
+    public void save(Order order) throws Exception {
+        int sum = order.getCar().getCostPerDay() * order.getDays();
+        order.setSum(sum);
+        repository.save(order);
 
     }
-    public int getSum(long id){
+
+    public int getSum(long id) {
         return repository.getSum(id);
     }
-    public long getId(){
-        return repository.getId();
-    }
 
-    public boolean isCarAvailable(long id, LocalDate pickupDate, LocalDate returnDate){
-        List<Order> orders = repository.findByCarIdAndReturnedAfter(id, pickupDate);
-        for (Order order: orders){
-            if (order.getDate().isBefore(returnDate)){
-                return false;
-            }
-        }
-        return true;
+    public long getId() {
+        return repository.getId();
     }
 
 }

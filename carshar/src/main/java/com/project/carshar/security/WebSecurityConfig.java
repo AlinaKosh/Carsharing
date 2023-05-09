@@ -29,15 +29,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Value("${spring.queries.roles-query}")
 	private String rolesQuery;
 
-	private final UserDetailsService userDetailsService;
+	//private final UserDetailsService userDetailsService;
 
 	private final PasswordEncoder psw;
 
+	//настраивает аутентификацию
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.jdbcAuthentication().usersByUsernameQuery(usersQuery).authoritiesByUsernameQuery(rolesQuery)
 				.dataSource(dataSource).passwordEncoder(psw);
 	}
+	//usersByUsernameQuery - получение учётной записи пользователя по имени пользователя и authoritiesByUsernameQuery
+	//получение роли пользователя
 	/*
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception{
@@ -68,9 +71,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				authorizeRequests().antMatchers("/login*","/registration*").anonymous()
 				.and()
 				.formLogin().loginPage("/login").permitAll()
-				.failureUrl("/login?error=true").defaultSuccessUrl("/profile").usernameParameter("email")
-				.passwordParameter("password")	.and().logout()
-				.logoutSuccessUrl("/").and().exceptionHandling().accessDeniedPage("/access-denied");
+				.failureUrl("/login?error=true").defaultSuccessUrl("/profile")
+				.usernameParameter("email").passwordParameter("password")
+				.and()
+				.logout().logoutSuccessUrl("/").and().exceptionHandling().accessDeniedPage("/access-denied");
 	}
 
 }

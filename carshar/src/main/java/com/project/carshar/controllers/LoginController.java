@@ -23,8 +23,8 @@ import javax.validation.Valid;
 @Controller
 public class LoginController {
 
-	private UserService userService;
-    private OrderService orderService;
+	private final UserService userService;
+    private final OrderService orderService;
 
     public LoginController(UserService userService, OrderService orderService) {
         this.userService = userService;

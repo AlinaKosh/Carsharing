@@ -55,8 +55,9 @@ public class UserService {
 			throw new Exception("Данный почтовый адрес занят");
 		user.setActive(1);
 
+		//назначение роли по дефолту юзера
 		Role userRole = roleRepository.findByRole("USER");
-		user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+		user.setRoles(new HashSet<>(Arrays.asList(userRole)));
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 

@@ -53,7 +53,7 @@ function confirmPassword() {
     var password2=document.getElementById("password2").value;
     var help=document.getElementById("password_help2");
 
-    if(password!=password2){
+    if(password!==password2){
         help.innerHTML="Пароли должны совпадать";
         return false;
     } else {
