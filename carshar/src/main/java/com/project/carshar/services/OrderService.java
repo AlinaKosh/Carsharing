@@ -53,8 +53,10 @@ public class OrderService {
         return repository.getSum(id);
     }
 
+    /*
     public long getId() {
         return repository.getId();
     }
+     */
 
 }

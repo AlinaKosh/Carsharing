@@ -2,10 +2,12 @@ package com.project.carshar.controllers;
 
 import com.project.carshar.exception.CarAlreadyException;
 import com.project.carshar.model.Order;
+import com.project.carshar.model.OrderStatus;
 import com.project.carshar.model.User;
 import com.project.carshar.services.CarService;
 import com.project.carshar.services.OrderService;
 import com.project.carshar.services.UserService;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 
@@ -134,5 +137,46 @@ public class OrderController {
         return "redirect:/profile/orders";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("orders/find")
+    public String find(Model model){
+        return "orders/findOrder";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("admin/orders/changeStatus")
+    public String changeOrderStatus(Long id, Model model){
+        model.addAttribute("order", orderService.findById(id));
+        return "orders/changeStatus";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("admin/orders/changeStatus/toGive/{id}")
+    public String toGive(@PathVariable("id") long id) throws Exception {
+        Order order = orderService.findById(id);
+        order.setStatus(OrderStatus.GIVE);
+        orderService.save(order);
+        return "redirect:/orders/find";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("admin/orders/changeStatus/toDenied/{id}")
+    public String toDenied(@PathVariable("id") long id) throws Exception {
+        Order order = orderService.findById(id);
+        order.setStatus(OrderStatus.DENIED);
+        order.setReturned(LocalDate.now());
+        orderService.save(order);
+        return "redirect:/orders/find";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("admin/orders/changeStatus/toFinish/{id}")
+    public String toFinish(@PathVariable("id") long id) throws Exception {
+        Order order = orderService.findById(id);
+        order.setStatus(OrderStatus.FINISH);
+        order.setReturned(LocalDate.now());
+        orderService.save(order);
+        return "redirect:/orders/find";
+    }
 
 }

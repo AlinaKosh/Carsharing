@@ -91,7 +91,7 @@ public class CarController {
         }
         return "redirect:/cars";
     }
-    /*
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") long id, Model model) {
@@ -112,8 +112,6 @@ public class CarController {
 
         return "redirect:/cars";
     }
-
-     */
 
 
 }

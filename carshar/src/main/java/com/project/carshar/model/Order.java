@@ -32,6 +32,9 @@ public class Order {
     @Column(name = "sum")
     private Integer sum;
 
+    @Column(name = "status")
+    private OrderStatus status = OrderStatus.BOOKED;
+
 
     public Order(){}
     public LocalDate getReturned() {
@@ -40,17 +43,6 @@ public class Order {
 
     public void setReturned(LocalDate returned) {
         this.returned = returned;
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", user=" + user +
-                ", car=" + car +
-                ", date=" + date +
-                ", days=" + days +
-                '}';
     }
 
     public long getId() {
@@ -92,5 +84,21 @@ public class Order {
 
     public void setDays(int days) {
         this.days = days;
+    }
+
+    public boolean isBooked(){
+        return status == OrderStatus.BOOKED;
+    }
+
+    public boolean isGive(){
+        return status == OrderStatus.GIVE;
+    }
+
+    public boolean isDenied(){
+        return status == OrderStatus.DENIED;
+    }
+
+    public boolean isFinish(){
+        return status == OrderStatus.FINISH;
     }
 }

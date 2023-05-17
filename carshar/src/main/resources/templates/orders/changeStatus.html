@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8" />
+  <title>Find</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+</head>
+<body>
+<nav class="menu">
+  <ul>
+    <li><a href="/profile">Мой профиль</a></li>
+    <li sec:authorize="anonymous"><a href="/login">Войти</a></li>
+    <li sec:authorize="authenticated"><a href="/logout">Выйти</a></li>
+    <li sec:authorize="anonymous"><a sec:authorize="anonymous" href="/registration">Регистрация</a></li>
+  </ul>
+</nav>
+<div class="logo">
+  <p><a href="/"><img src="/images/logo.png" title="Car Sharing"></a></p>
+</div>
+<h1>Найти заказы</h1>
+<br/><br/>
+  <table >
+    <tr>
+      <th>Идентификатор</th>
+      <th>ID пользователя</th>
+      <th>Автомобиль</th>
+      <th>Дата</th>
+      <th>Количество дней аренды</th>
+      <th>Вернул</th>
+      <th>Сумма заказа</th>
+    </tr>
+    <tr>
+      <td th:utext="${order.id}">...</td>
+      <td th:utext="${order.user.id}">...</td>
+      <td th:utext="${order.car.toString()}">...</td>
+      <td th:utext="${order.date}">...</td>
+      <td th:utext="${order.days}">...</td>
+      <td th:utext="${order.returned}">...</td>
+      <td th:utext="${order.sum}">...</td>
+      <td th:if="${order.isBooked()}"><a th:href="@{/admin/orders/changeStatus/toGive/{id}(id=${order.getId()})}">Выдать</a></td>
+      <td th:if="${order.isBooked()}"><a th:href="@{/admin/orders/changeStatus/toDenied/{id}(id=${order.getId()})}">Отказать</a></td>
+      <td th:if="${order.isGive()}"><a th:href="@{/admin/orders/changeStatus/toFinish/{id}(id=${order.getId()})}">Закончить</a></td>
+    </tr>
+  </table>
+</body>
+</html>
