@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Data
@@ -30,10 +31,11 @@ public class Order {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate returned;
     @Column(name = "sum")
-    private Integer sum;
+    private Double sum;
 
     @Column(name = "status")
     private OrderStatus status = OrderStatus.BOOKED;
+
 
 
     public Order(){}

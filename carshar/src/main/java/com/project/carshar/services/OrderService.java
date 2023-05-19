@@ -1,16 +1,12 @@
 package com.project.carshar.services;
 
-import com.project.carshar.exception.CarAlreadyException;
-import com.project.carshar.model.Firm;
 import com.project.carshar.model.Order;
 import com.project.carshar.model.User;
 import com.project.carshar.repositories.OrderRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -18,6 +14,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class OrderService {
     private final OrderRepository repository;
+    private final OrderReturnService orderReturnService;
 
     public List<Order> findAll() {
         return repository.findAll();
@@ -44,12 +41,14 @@ public class OrderService {
     @Transactional
     public void save(Order order) throws Exception {
         int sum = order.getCar().getCostPerDay() * order.getDays();
-        order.setSum(sum);
+        order.getUser().setOrderReturns(orderReturnService.findAllByUserId(order.getUser().getId()));
+        order.setSum(sum * order.getUser().getCof());
+        System.out.println(order.getUser().getCof());
         repository.save(order);
 
     }
 
-    public int getSum(long id) {
+    public Double getSum(long id) {
         return repository.getSum(id);
     }
 

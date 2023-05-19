@@ -18,7 +18,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             value = "SELECT o.sum FROM Order o where o.id=?1")
             //value = "SELECT sum FROM order_sum where order_id=?",
             //nativeQuery = true)
-    Integer getSum(long id);
+    Double getSum(long id);
 
     List<Order> findByCar_IdAndDateBeforeAndReturnedAfter(long id, LocalDate date, LocalDate returned);
 
