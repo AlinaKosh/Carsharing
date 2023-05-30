@@ -41,6 +41,8 @@
             <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/cars/edit/{id}(id=${list[i].id})}">Изменить</a></td>
             <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/cars/delete/{id}(id=${list[i].id})}">Удалить</a></td>
 
+            <!--td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/add/card/{id}(id=${list[i].id})}">Карточка</a></td-->
+
         </tr>
     </table>
 </div>

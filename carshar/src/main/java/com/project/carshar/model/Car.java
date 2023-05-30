@@ -1,10 +1,15 @@
 package com.project.carshar.model;
 
 
+import jdk.dynalink.linker.LinkerServices;
+import lombok.Data;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "cars")
+@Data
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +28,8 @@ public class Car {
     @Column(name = "cost_per_day")
     private int costPerDay;
 
+    @OneToMany(mappedBy = "id")
+    private List<Card> card;
     public Car(){}
 
     private String number;

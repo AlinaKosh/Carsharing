@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8" />
+  <title>Card car</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+</head>
+<body>
+<nav class="menu">
+  <ul>
+    <li><a href="/profile">Мой профиль</a></li>
+    <li sec:authorize="anonymous"><a href="/login">Войти</a></li>
+    <li sec:authorize="authenticated"><a href="/logout">Выйти</a></li>
+    <li sec:authorize="anonymous"><a sec:authorize="anonymous" href="/registration">Регистрация</a></li>
+  </ul>
+</nav>
+<div class="logo">
+  <p><a href="/"><img src="/images/logo.png" title="Car Sharing"></a></p>
+</div>
+<h1>Карточки машин: </h1>
+
+<br/><br/>
+
+<div>
+  <table>
+    <tr>
+      <th>Идентификатор автомобиля</th>
+      <th>Название автомобиля</th>
+      <th>Номер автомобиля</th>
+      <th>Фирма автомобиля</th>
+      <th>Необходимая информация о машине</th>
+    </tr>
+    <tr th:each="car : ${cars}">
+      <th th:utext="${car.getId()}">...</th>
+      <th th:utext="${car.getType()}">...</th>
+      <th th:utext="${car.getNumber()}">...</th>
+      <th th:utext="${car.getFirm()}">...</th>
+      <th><a th:href="@{/card/car/{id}(id=${car.getId()})}">Посмотреть </a></th>
+    </tr>
+  </table>
+</div>
+
+</body>
+</html>

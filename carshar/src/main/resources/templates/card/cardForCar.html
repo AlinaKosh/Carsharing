@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8" />
+  <title>Card car</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+</head>
+<body>
+<nav class="menu">
+  <ul>
+    <li><a href="/profile">Мой профиль</a></li>
+    <li sec:authorize="anonymous"><a href="/login">Войти</a></li>
+    <li sec:authorize="authenticated"><a href="/logout">Выйти</a></li>
+    <li sec:authorize="anonymous"><a sec:authorize="anonymous" href="/registration">Регистрация</a></li>
+  </ul>
+</nav>
+<div class="logo">
+  <p><a href="/"><img src="/images/logo.png" title="Car Sharing"></a></p>
+</div>
+<h1>Карточка машины</h1>
+<tr th:each="car : ${cars}">
+  <th><a th:href="@{/add/card/{id}(id=${car.getId()})}">Добавить </a></th>
+</tr>
+
+<br/><br/>
+
+<div>
+  <table>
+    <tr>
+      <th>Идентификатор карточки</th>
+      <th>Состояние салона</th>
+      <th>Состояние кузова</th>
+      <th>Литры бензина</th>
+      <th>Время последней записи</th>
+    </tr>
+    <tr th:each="card:${cards}">
+      <th th:utext="${card.getId()}"></th>
+      <th th:utext="${card.getSalonState()}"></th>
+      <th th:utext="${card.getKuzovState()}"></th>
+      <th th:utext="${card.getFuel()}"></th>
+      <th th:utext="${card.getTimeWatch()}"></th>
+    </tr>
+  </table>
+</div>
+
+</body>
+</html>

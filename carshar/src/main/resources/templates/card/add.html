@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8" />
+    <title>Card car</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+</head>
+<body>
+<nav class="menu">
+    <ul>
+        <li><a href="/profile">Мой профиль</a></li>
+        <li sec:authorize="anonymous"><a href="/login">Войти</a></li>
+        <li sec:authorize="authenticated"><a href="/logout">Выйти</a></li>
+        <li sec:authorize="anonymous"><a sec:authorize="anonymous" href="/registration">Регистрация</a></li>
+    </ul>
+</nav>
+<div class="logo">
+    <p><a href="/"><img src="/images/logo.png" title="Car Sharing"></a></p>
+</div>
+<h1>Карточка машины</h1>
+<br/><br/>
+<h2>Добавление состояния машины</h2>
+<h3>Выберите необходимое состояние</h3>
+<div>
+    <form class="form-horizontal" th:object="${card}" th:action="@{/add/card}" method="post">
+
+
+        <br>
+
+        <tr>
+            <td>Идентификатор машины:</td>
+            <td th:utext="${car.getId()}">...</td>
+            <input type="hidden" name="carId" th:value="${car.getId()}">
+        </tr>
+
+        <br>
+        <br>
+
+        <td>Состояние салона: </td>
+        <p></p>
+        <tr>
+            <td><input type="radio" name="salonState" th:value="${card.getSalonState().BAD}"/><label>Плохо</label></td>
+            <p></p>
+            <td><input type="radio" name="salonState" th:value="${card.getSalonState().GOOD}"/><label>Хорошо</label></td>
+            <p></p>
+            <td><input type="radio" name="salonState" th:value="${card.getSalonState().VERY_GOOD}"/><label>Очень хорошо</label></td>
+        </tr>
+
+        <br>
+        <br>
+        <td>Состояние кузова: </td>
+        <p></p>
+        <tr>
+            <td><input type="radio" name="kuzovState" th:value="${card.getKuzovState().BAD}"/><label>Плохо</label></td>
+            <p></p>
+            <td><input type="radio" name="kuzovState" th:value="${card.getKuzovState().GOOD}"/><label>Хорошо</label></td>
+            <p></p>
+            <td><input type="radio" name="kuzovState" th:value="${card.getKuzovState().VERY_GOOD}"/><label>Очень хорошо</label></td>
+        </tr>
+
+        <br>
+        <br>
+        <tr>
+            <td>Ввести количество литров бензина </td>
+            <input name="fuel" type="number">
+        </tr>
+
+        <br>
+        <br>
+        <tr>
+            <td><button type="submit">Подтвердить</button></td>
+        </tr>
+
+        <br>
+        <br>
+        <br>
+        <br>
+
+    </form>
+</div>
+</body>
+</html>
