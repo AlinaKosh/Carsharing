@@ -39,7 +39,7 @@
       <td th:utext="${order.sum}">...</td>
       <td th:if="${order.isBooked()}"><a th:href="@{/admin/orders/changeStatus/toGive/{id}(id=${order.getId()})}">Выдать</a></td>
       <td th:if="${order.isBooked()}"><a th:href="@{/admin/orders/changeStatus/toDenied/{id}(id=${order.getId()})}">Отказать</a></td>
-      <td th:if="${order.isGive()}"><a th:href="@{/admin/users/returnStatus/{user}/{order}(order=${order.getId()}, user=${order.getUser().getId()})}">Закончить</a></td>
+      <td th:if="${order.isGive()}"><a th:href="@{/admin/orders/changeStatus/toFinish/{id}(id=${order.getId()})}">Закончить</a></td>
     </tr>
   </table>
 </body>

@@ -10,10 +10,12 @@ import java.util.List;
 @Data
 public class OrderCard {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "order")
     private Order order;
-    @OneToMany(mappedBy = "id")
-    private List<Card> card;
+    @OneToOne
+    @JoinColumn(name = "card_id")
+    private Card card;
 }

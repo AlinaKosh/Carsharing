@@ -1,15 +1,16 @@
 package com.project.carshar.controllers;
 
-import com.project.carshar.model.Car;
-import com.project.carshar.model.Card;
-import com.project.carshar.model.State;
+import com.project.carshar.model.*;
 import com.project.carshar.repositories.OrderCardRepository;
+import com.project.carshar.repositories.RoleRepository;
 import com.project.carshar.services.CarService;
 import com.project.carshar.services.CardService;
+import com.project.carshar.services.OrderService;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,6 +29,8 @@ public class CardController {
     @Autowired
     private CarService carService;
     @Autowired
+    OrderService orderService;
+    @Autowired
     private OrderCardRepository orderCardRepository;
 
     @GetMapping("/add/card/{id}")
@@ -38,20 +41,36 @@ public class CardController {
         return "card/add";
     }
 
+    @GetMapping("/add/card/{id}/{order}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String saveCard(@PathVariable("id") long id, Model model, @PathVariable long order){
+        model.addAttribute("order", order);
+        model.addAttribute("card", new CardForm());
+        model.addAttribute("car", carService.findById(id));
+
+        return "card/add";
+    }
+
     @PostMapping("/add/card")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String saveCard(@ModelAttribute("object") CardForm cardForm){
 
-        Card card = new Card();
-        card.setSalonState(cardForm.getSalonState());
-        card.setKuzovState(cardForm.getKuzovState());
-        card.setFuel(cardForm.getFuel());
-        card.setTimeWatch(LocalDate.now());
-        card.setCar(carService.findById(cardForm.carId));
+        getCardFromForm(cardForm);
 
-        cardService.save(card);
+        return "redirect:/card/list";
+    }
 
-        System.out.println(cardForm);
+    @PostMapping("/add/card/{order}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String saveCard(@ModelAttribute("object") CardForm cardForm, @PathVariable long order){
+
+        Card card = getCardFromForm(cardForm);
+        System.err.println(card);
+        Order order1 = orderService.findById(order);
+        var orderCard = new OrderCard();
+        orderCard.setOrder(order1);
+        orderCard.setCard(card);
+        orderCardRepository.save(orderCard);
 
         return "redirect:/card/list";
     }
@@ -66,7 +85,8 @@ public class CardController {
     @GetMapping("/card/car/{id}")
     @PreAuthorize("hasAuthority('USER')")
     public String cardByCar(@PathVariable("id")long id, @ModelAttribute("card")Card card, Model model){
-        model.addAttribute("cards", cardService.findAll());
+        //model.addAttribute("cards", cardService.findById(card.getCar().getId()));
+        model.addAttribute("cards", cardService.findAllByCarId(id));
         model.addAttribute("cars", carService.findById(id));
         return "card/cardForCar";
     }
@@ -92,6 +112,19 @@ public class CardController {
             return "card/edit";
         }
         return "redirect:/cardCart";
+    }
+
+    private Card getCardFromForm(CardForm cardForm){
+
+        Card card = new Card();
+        card.setSalonState(cardForm.getSalonState());
+        card.setKuzovState(cardForm.getKuzovState());
+        card.setFuel(cardForm.getFuel());
+        card.setTimeWatch(LocalDate.now());
+        card.setCar(carService.findById(cardForm.carId));
+
+        return cardService.save(card);
+
     }
 
 }

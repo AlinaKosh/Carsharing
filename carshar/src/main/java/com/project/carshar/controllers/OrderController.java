@@ -156,7 +156,7 @@ public class OrderController {
         Order order = orderService.findById(id);
         order.setStatus(OrderStatus.GIVE);
         orderService.save(order);
-        return "redirect:/orders/find";
+        return "redirect:/add/card/"+order.getCar().getId()+"/"+order.getId();
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -176,7 +176,7 @@ public class OrderController {
         order.setStatus(OrderStatus.FINISH);
         order.setReturned(LocalDate.now());
         orderService.save(order);
-        return "redirect:/orders/find";
+        return "redirect:/add/card/"+order.getCar().getId()+"/"+order.getId();
     }
 
 }

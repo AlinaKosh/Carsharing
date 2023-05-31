@@ -23,9 +23,7 @@
 <h2>Добавление состояния машины</h2>
 <h3>Выберите необходимое состояние</h3>
 <div>
-    <form class="form-horizontal" th:object="${card}" th:action="@{/add/card}" method="post">
-
-
+    <form class="form-horizontal" th:if="${order==null}" th:object="${card}" th:action="@{/add/card}" method="post">
         <br>
 
         <tr>
@@ -78,6 +76,61 @@
         <br>
 
     </form>
+
+    <form class="form-horizontal" th:if="${order}" th:object="${card}" th:action="@{/add/card/{order}(order=${order})}" method="post">
+        <br>
+
+        <tr>
+            <td>Идентификатор машины:</td>
+            <td th:utext="${car.getId()}">...</td>
+            <input type="hidden" name="carId" th:value="${car.getId()}">
+        </tr>
+
+        <br>
+        <br>
+
+        <td>Состояние салона: </td>
+        <p></p>
+        <tr>
+            <td><input type="radio" name="salonState" th:value="${card.getSalonState().BAD}"/><label>Плохо</label></td>
+            <p></p>
+            <td><input type="radio" name="salonState" th:value="${card.getSalonState().GOOD}"/><label>Хорошо</label></td>
+            <p></p>
+            <td><input type="radio" name="salonState" th:value="${card.getSalonState().VERY_GOOD}"/><label>Очень хорошо</label></td>
+        </tr>
+
+        <br>
+        <br>
+        <td>Состояние кузова: </td>
+        <p></p>
+        <tr>
+            <td><input type="radio" name="kuzovState" th:value="${card.getKuzovState().BAD}"/><label>Плохо</label></td>
+            <p></p>
+            <td><input type="radio" name="kuzovState" th:value="${card.getKuzovState().GOOD}"/><label>Хорошо</label></td>
+            <p></p>
+            <td><input type="radio" name="kuzovState" th:value="${card.getKuzovState().VERY_GOOD}"/><label>Очень хорошо</label></td>
+        </tr>
+
+        <br>
+        <br>
+        <tr>
+            <td>Ввести количество литров бензина </td>
+            <input name="fuel" type="number">
+        </tr>
+
+        <br>
+        <br>
+        <tr>
+            <td><button type="submit">Подтвердить</button></td>
+        </tr>
+
+        <br>
+        <br>
+        <br>
+        <br>
+
+    </form>
+
 </div>
 </body>
 </html>

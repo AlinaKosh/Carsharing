@@ -20,8 +20,8 @@ public class CardService {
     private CardRepository cardRepository;
 
     @Transactional
-    public void save(Card card){
-        cardRepository.save(card);
+    public Card save(Card card){
+        return cardRepository.save(card);
     }
 
     public Optional<Card> findById(long id){
@@ -30,5 +30,9 @@ public class CardService {
 
     public List<Card> findAll(){
         return cardRepository.findAll();
+    }
+
+    public List<Card> findAllByCarId(long id){
+        return cardRepository.findAllByCarId(id);
     }
 }
