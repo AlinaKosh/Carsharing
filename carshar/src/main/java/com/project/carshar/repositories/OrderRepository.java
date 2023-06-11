@@ -20,19 +20,15 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             //nativeQuery = true)
     Double getSum(long id);
 
-    List<Order> findByCar_IdAndDateBeforeAndReturnedAfter(long id, LocalDate date, LocalDate returned);
+    @Query("select o.user from Order o where o.id = :orderId")
+    User findUserByOrderId(@Param("orderId") long orderId);
 
-    List<Order> findByCarIdAndReturnedAfter(long carId, LocalDate returned);
+    @Query("select SUM(o.statement) from OrderReturn o where o.user.id = :userId")
+    double findBySumCoefficient(@Param("userId") long userId);
 
-    /*
-    @Query(
-            value = "select test()",
-            nativeQuery = true)
-    long getId();
+    @Query("select count(o.statement) from OrderReturn o where o.user.id = :userId and o.statement<1")
+    int countGoodStatement(@Param("userId") long userId);
 
-
-    @Query("select b from Order b where b.car.id = : id and ((b.date>=:date and b.date<:returned) or (b.returned>:date and b.returned<=:returned))")
-    List<Order> findConflictingBookings(@Param("date")LocalDate date, @Param("returned")LocalDate returned, @Param("id") long id);
-
-     */
+    @Query("select count(o.statement) from OrderReturn o where o.user.id = :userId and o.statement>1")
+    int countBadStatement(@Param("userId") long userId);
 }

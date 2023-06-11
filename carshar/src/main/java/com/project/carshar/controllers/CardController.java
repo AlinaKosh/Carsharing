@@ -3,9 +3,7 @@ package com.project.carshar.controllers;
 import com.project.carshar.model.*;
 import com.project.carshar.repositories.OrderCardRepository;
 import com.project.carshar.repositories.RoleRepository;
-import com.project.carshar.services.CarService;
-import com.project.carshar.services.CardService;
-import com.project.carshar.services.OrderService;
+import com.project.carshar.services.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +27,14 @@ public class CardController {
     @Autowired
     private CarService carService;
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
     @Autowired
     private OrderCardRepository orderCardRepository;
+    @Autowired
+    private OrderReturnService orderReturnService;
+    @Autowired
+    private UserService userService;
+
 
     @GetMapping("/add/card/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -60,6 +63,45 @@ public class CardController {
         return "redirect:/card/list";
     }
 
+    private boolean flag = true;
+    @PostMapping("/add/card/{order}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String saveCard(@ModelAttribute("object") CardForm cardForm, @PathVariable long order){
+
+        Card card = getCardFromForm(cardForm);
+        System.err.println(card);
+
+        Order order1 = orderService.findById(order);
+        var orderCard = new OrderCard();
+        orderCard.setOrder(order1);
+        //int sum = order1.getCar().getCostPerDay() * order1.getDays();
+        double sum = order1.getSum();
+        //System.out.println(sum);
+
+        if (flag) {
+            flag=false;
+        }else {
+            if (cardForm.getKuzovState() == State.VERY_GOOD && cardForm.getSalonState() == State.VERY_GOOD) {
+                saveOrderReturn(0.5, order);
+            } else if (cardForm.getSalonState() == State.GOOD && cardForm.getKuzovState() == State.GOOD || cardForm.getSalonState() == State.GOOD &&
+                    cardForm.getKuzovState() == State.VERY_GOOD || cardForm.getSalonState() == State.VERY_GOOD && cardForm.getKuzovState() == State.GOOD) {
+                saveOrderReturn(0.75, order);
+            } else if (cardForm.getSalonState() == State.BAD && cardForm.getKuzovState() == State.BAD) {
+                saveOrderReturn(1.25, order);
+            } else {
+                saveOrderReturn(1.0, order);
+            }
+            flag=true;
+        }
+
+        orderCard.setCard(card);
+
+        orderCardRepository.save(orderCard);
+
+        return "redirect:/card/list";
+    }
+
+    /*
     @PostMapping("/add/card/{order}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String saveCard(@ModelAttribute("object") CardForm cardForm, @PathVariable long order){
@@ -74,6 +116,7 @@ public class CardController {
 
         return "redirect:/card/list";
     }
+     */
 
     @GetMapping("/card/list")
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -125,6 +168,16 @@ public class CardController {
 
         return cardService.save(card);
 
+    }
+
+    private void saveOrderReturn(double statement, long order){
+        OrderReturn orderReturn = new OrderReturn();
+        orderReturn.setStatement(statement);
+        System.out.println(statement);
+        //orderReturn.setUser(userService.findById(order));
+        orderReturn.setUser(orderService.findUserByOrderId(order));
+        System.out.println(orderService.findUserByOrderId(order));
+        orderReturnService.save(orderReturn);
     }
 
 }

@@ -1,8 +1,12 @@
 package com.project.carshar.controllers;
 
+import com.project.carshar.model.Order;
+import com.project.carshar.model.OrderReturn;
 import com.project.carshar.model.User;
+import com.project.carshar.services.OrderReturnService;
 import com.project.carshar.services.OrderService;
 import com.project.carshar.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,13 +22,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.Collections;
+import java.util.List;
 
 
 @Controller
 public class LoginController {
 
+    @Autowired
 	private final UserService userService;
+    @Autowired
     private final OrderService orderService;
+    @Autowired
+    private OrderReturnService orderReturnService;
 
     public LoginController(UserService userService, OrderService orderService) {
         this.userService = userService;
@@ -82,7 +92,9 @@ public class LoginController {
 	public String profile(Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findByEmail(auth.getName());
+        int sale = orderService.sale(user.getId());
 		model.addAttribute("user", user);
+        model.addAttribute("sale", sale);
 		return "profile/index";
 	}
 

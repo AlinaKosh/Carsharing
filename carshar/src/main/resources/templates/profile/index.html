@@ -39,6 +39,13 @@
                 </form>
                 <a th:href="@{/profile/edit/{id}(id=*{id})}">Изменить</a>
             </div>
+            <div>
+                <h1><tr>
+                    <td>Скидка:</td>
+                    <td th:text="${sale}"></td> %
+                </tr></h1>
+                <tr>Скидка даётся на следующую аренду машины</tr>
+            </div>
         </div>
     </body>
 </html>

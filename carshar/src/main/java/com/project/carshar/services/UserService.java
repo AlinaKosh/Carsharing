@@ -1,5 +1,6 @@
 package com.project.carshar.services;
 
+import com.project.carshar.model.OrderReturn;
 import com.project.carshar.model.Role;
 import com.project.carshar.model.User;
 import com.project.carshar.repositories.RoleRepository;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 
 
 @Service
@@ -43,7 +45,6 @@ public class UserService {
 	}
 
 
-
 	@Transactional
 	public void deleteById(long id) {
 		userRep.deleteById(id);
@@ -60,6 +61,19 @@ public class UserService {
 		user.setRoles(new HashSet<>(Arrays.asList(userRole)));
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+		// Создаем новый OrderReturn и задаем ему значение statement = 0.1
+		OrderReturn orderReturn = new OrderReturn();
+		orderReturn.setStatement(0.1);
+		orderReturn.setUser(user);
+
+		/*
+		// Добавляем OrderReturn к списку OrderReturn у пользователя
+		List<OrderReturn> orderReturns = user.getOrderReturns();
+		orderReturns.add(orderReturn);
+		user.setOrderReturns(orderReturns);
+
+		 */
 
 		userRep.save(user);
 	}

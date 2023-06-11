@@ -15,7 +15,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="\"user\"")
+    @JoinColumn(name="user")
     private User user;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="car")
